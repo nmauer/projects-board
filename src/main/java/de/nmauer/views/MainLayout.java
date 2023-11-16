@@ -36,6 +36,7 @@ import de.nmauer.data.User;
 import de.nmauer.security.AuthenticatedUser;
 import de.nmauer.views.calendar.CalendarView;
 import de.nmauer.views.passwordmanager.PasswordManagerView;
+import de.nmauer.views.services.ServiceListView;
 import de.nmauer.views.settings.SettingsView;
 import de.nmauer.views.todoboards.ToDoBoardsView;
 import java.io.ByteArrayInputStream;
@@ -115,6 +116,7 @@ public class MainLayout extends AppLayout {
             MenuBar userMenu = new MenuBar();
             userMenu.setThemeName("tertiary-inline contrast");
 
+            // user sub menu
             MenuItem userName = userMenu.addItem("");
             Div div = new Div();
             div.add(avatar);
@@ -127,6 +129,9 @@ public class MainLayout extends AppLayout {
             userName.getSubMenu().addItem("Sign out", e -> {
                 authenticatedUser.logout();
             });
+
+            // company sub menu
+            MenuItem companyMenu = userMenu.addItem("");
 
             layout.add(userMenu);
         } else {
@@ -156,6 +161,8 @@ public class MainLayout extends AppLayout {
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{ //
                 new MenuItemInfo("ToDo Boards", LineAwesomeIcon.GLOBE_SOLID.create(), ToDoBoardsView.class), //
+
+                new MenuItemInfo("Service List", LineAwesomeIcon.GLOBE_SOLID.create(), ServiceListView.class), //
 
                 new MenuItemInfo("Password Manager", LineAwesomeIcon.GLOBE_SOLID.create(), PasswordManagerView.class), //
 
