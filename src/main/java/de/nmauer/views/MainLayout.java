@@ -113,11 +113,35 @@ public class MainLayout extends AppLayout {
             avatar.setThemeName("xsmall");
             avatar.getElement().setAttribute("tabindex", "-1");
 
-            MenuBar userMenu = new MenuBar();
-            userMenu.setThemeName("tertiary-inline contrast");
+            MenuBar navMenu = new MenuBar();
+            navMenu.setThemeName("tertiary-inline contrast");
+
+            // company sub menu
+            if(user.getPrimaryCompany() != null){
+
+                Avatar companyLogo = user.getPrimaryCompany().getLogoAsAvatar();
+                companyLogo.setThemeName("xsmall");
+
+                // user sub menu
+                MenuItem companyItem = navMenu.addItem("");
+                companyItem.getElement().getStyle().set("margin-right", "10px");
+                Div div = new Div();
+                div.add(companyLogo);
+                div.add(user.getPrimaryCompany().getName());
+                div.add(new Icon("lumo", "dropdown"));
+                div.getElement().getStyle().set("display", "flex");
+                div.getElement().getStyle().set("align-items", "center");
+                div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
+                companyItem.add(div);
+                companyItem.getSubMenu().addItem("Test Submenu Item", e -> {
+                    getUI().get().getPage().setLocation("https://google.de");
+                });
+
+                layout.add(companyItem);
+            }
 
             // user sub menu
-            MenuItem userName = userMenu.addItem("");
+            MenuItem userName = navMenu.addItem("");
             Div div = new Div();
             div.add(avatar);
             div.add(user.getName());
@@ -130,10 +154,7 @@ public class MainLayout extends AppLayout {
                 authenticatedUser.logout();
             });
 
-            // company sub menu
-            MenuItem companyMenu = userMenu.addItem("");
-
-            layout.add(userMenu);
+            layout.add(navMenu);
         } else {
             Anchor loginLink = new Anchor("login", "Sign in");
             layout.add(loginLink);

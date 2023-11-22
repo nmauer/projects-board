@@ -3,6 +3,7 @@ package de.nmauer.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import javax.annotation.Nullable;
 import java.util.Set;
 
 @Entity
@@ -20,8 +21,8 @@ public class User extends AbstractEntity {
     @Column(length = 1000000)
     private byte[] profilePicture;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "primary_company_id")
+    @ManyToOne()
+    @JoinColumn(name = "primary_company_id", referencedColumnName = "id", nullable = false)
     private Company primaryCompany;
 
     public String getUsername() {
@@ -55,6 +56,7 @@ public class User extends AbstractEntity {
         this.profilePicture = profilePicture;
     }
 
+    @Nullable
     public Company getPrimaryCompany() {
         return primaryCompany;
     }
